@@ -82,5 +82,4 @@ Vagrant.configure("2") do |config|
       createrepo --updates /var/yum/repos/centos/7/os/x86_64/
       createrepo --updates /var/yum/repos/centos/7/updates/x86_64/
     SHELL
-   end
 end

@@ -27,5 +27,5 @@ end
 
 desc "default"
 task :default do
-  rake -t
+  system "rake --tasks"
 end
