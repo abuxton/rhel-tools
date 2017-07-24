@@ -1,4 +1,4 @@
-require 'vagrant'
+#require 'vagrant'
 
 class VM
   def initialize(opts=nil)

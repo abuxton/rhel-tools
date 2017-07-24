@@ -1,4 +1,14 @@
-#load 'rake/helper.rb'
+#
+load 'rake/helper.rb'
+
+desc "Run the test suite."
+task :test do
+  $:.unshift File.expand_path("../test", __FILE__)
+
+    Dir["test/**/*_test.rb"].each do |f|
+        load f
+    end
+end
 
 desc "Set up the VM"
 task :up do
@@ -12,18 +22,7 @@ task :graceful_down do
   vm.sudo('halt')
 end
 
-desc "Start sinatra app"
-task :start_sinatra do
-  vm = VM.new
-  status = vm.execute('rackup -D')
-  raise "It didn't start" if status > 0
-end
 
-desc "Run tests at the sinatra app"
-task :tests do
-  vm = VM.new
-  vm.execute('rake features')
-end
 
 desc "default"
 task :default do

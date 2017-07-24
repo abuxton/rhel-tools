@@ -72,13 +72,13 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", inline: <<-SHELL
       sudo yum update
       sudo yum install -y createrepo rsync nginx#
-      mkdir -p /var/yum/repos/centos/7/{os,update}/x86_64
+      mkdir -p /var/yum/repos/centos/7/{os,updates}/x86_64
       rsync -avz -avz --delete --exclude='repo*' \
       rsync://mirror.bytemark.co.uk/centos/7/os/x86_64/ \
       /var/yum/repos/centos/7/os/x86_64/
       rsync -avz -avz --delete --exclude='repo*' \
       rsync://mirror.bytemark.co.uk/centos/7/updates/x86_64/ \
-      /var/yumrepos/centos/7/updates/x86_64/
+      /var/yum/repos/centos/7/updates/x86_64/
       createrepo --updates /var/yum/repos/centos/7/os/x86_64/
       createrepo --updates /var/yum/repos/centos/7/updates/x86_64/
     SHELL
