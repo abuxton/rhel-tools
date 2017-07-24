@@ -1,0 +1,5 @@
+rhel-tools
+----------
+
+Simple repo to hold a vagrant file so I can mount a folder under vagrant shar in osx and clone epel repo for rhel x
+
