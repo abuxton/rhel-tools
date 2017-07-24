@@ -75,13 +75,20 @@ Vagrant.configure("2") do |config|
       sudo yum update
       sudo yum install -y createrepo rsync nginx#
       mkdir -p /var/yum/repos/centos/7/{os,updates}/x86_64
+      mkdir -p /var/yum/repos/fedora/epel/7/x86_64
+
       rsync -avz -avz --delete --exclude='repo*' \
       rsync://mirror.bytemark.co.uk/centos/7/os/x86_64/ \
       /var/yum/repos/centos/7/os/x86_64/
       rsync -avz -avz --delete --exclude='repo*' \
       rsync://mirror.bytemark.co.uk/centos/7/updates/x86_64/ \
       /var/yum/repos/centos/7/updates/x86_64/
+      rsync -avz -avz --delete --exclude='repo*' \
+      rsync://mirror.bytemark.co.uk/fedora/epel/7/x86_64/ \
+      /var/yum/repos/fedora/epel/7/x86_64/
+
       createrepo --updates /var/yum/repos/centos/7/os/x86_64/
       createrepo --updates /var/yum/repos/centos/7/updates/x86_64/
+      createrepo --updates /var/yum/repos/fedora/epel/7/x86_64/
     SHELL
 end
