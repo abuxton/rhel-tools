@@ -12,8 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "base"
-
+  config.vm.box = "puppetlabs/centos-7.0-64-puppet"
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -37,7 +36,7 @@ Vagrant.configure("2") do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  # config.vm.network "public_network"
+   config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -49,13 +48,13 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+     vb.memory = "4096"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -70,8 +69,18 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+   config.vm.provision "shell", inline: <<-SHELL
+      sudo yum update
+      sudo yum install -y createrepo rsync nginx#
+      mkdir -p /var/yum/repos/centos/7/{os,update}/x86_64
+      rsync -avz -avz --delete --exclude='repo*' \
+      rsync://mirror.bytemark.co.uk/centos/7/os/x86_64/ \
+      /var/yum/repos/centos/7/os/x86_64/
+      rsync -avz -avz --delete --exclude='repo*' \
+      rsync://mirror.bytemark.co.uk/centos/7/updates/x86_64/ \
+      /var/yumrepos/centos/7/updates/x86_64/
+      createrepo --updates /var/yum/repos/centos/7/os/x86_64/
+      createrepo --updates /var/yum/repos/centos/7/updates/x86_64/
+    SHELL
+   end
 end
